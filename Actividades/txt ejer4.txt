@@ -71,6 +71,12 @@ default-information originate
 
 ! EIGRP
 !------------------
+router eigrp 100
+network 10.1.1.0 0.0.0.3
+network 10.1.1.4 0.0.0.3
+passive-interface s0/2/0
+redistribute static
+
 
 -------- R1 ---------------------------------
 enable
@@ -137,6 +143,12 @@ no auto-summary
 
 ! EIGRP
 !------------------
+router eigrp 100
+network 192.16.15.0 0.0.0.15
+network 192.16.15.32 0.0.0.15
+network 10.1.1.0 0.0.0.3
+passive-interface g0/0/0
+passive-interface g0/0/1
 
 -------- R2 ---------------------------------
 
@@ -196,3 +208,7 @@ no auto-summary
 
 ! EIGRP
 !------------------
+router eigrp 100
+network 200.1.2.0 0.0.0.127
+network 10.1.1.4 0.0.0.3
+passive-interface g0/0/0
