@@ -1,14 +1,14 @@
 //
-//  Poke_dexApp.swift
-//  Pokédex
+//  PokedexApp.swift
+//  Pokedex
 //
-//  Created by Alan Patricio González Bernal on 09/10/23.
+//  Created by Alan Patricio González Bernal on 14/10/23.
 //
 
 import SwiftUI
 
 @main
-struct Poke_dexApp: App {
+struct PokedexApp: App {
     @Environment(\.scenePhase) var scenePhase
     
     var body: some Scene {
