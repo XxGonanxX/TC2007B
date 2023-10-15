@@ -7,6 +7,7 @@
 
 import Foundation
 
+// struct es para definir estructuras, pueden tener varios tipos de datos, más adelante se enseñará como se conectan cada una.
 struct Pokedex {
     var count: Int
     var results: [Pokemon]

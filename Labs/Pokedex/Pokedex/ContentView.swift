@@ -31,6 +31,8 @@ struct ContentView: View {
             let perfil = Perfil(sprites: Sprite(front_default: "", back_default: ""))
             let perfil2 = Perfil(sprites: Sprite(front_default: "", back_default: ""))
             let perfil3 = Perfil(sprites: Sprite(front_default: "", back_default: ""))
+            
+            // En todo este struct, se utilizan los struct del archivo Pokedex, aquí se conectaron.
             let pokemonBase = PokemonBase(id: 1, pokemon: pokemon, perfil: perfil)
             let pokemonBase2 = PokemonBase(id: 2, pokemon: pokemon2, perfil: perfil2)
             let pokemonBase3 = PokemonBase(id: 3, pokemon: pokemon3, perfil: perfil3)
