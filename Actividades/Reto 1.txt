@@ -1,0 +1,36 @@
+!S1
+ena
+config t
+hostname S1
+no ip domain-lookup
+enable password class
+line con 0
+password cisco
+line vty 0 4
+password cisco
+login
+logging synchronous
+interface vlan 1
+ip address 200.60.3.196 255.255.255.248
+no shutdown
+ip default-gateway 200.60.3.198
+
+!R1
+ena
+config t 
+hostname R1
+enable secret class
+no ip domain-lookup
+line con 0
+password cisco
+line vty 0 4
+password cisco
+service password-encryption
+int s0/0/0
+ip address 160.20.10.242 255.255.255.252
+clock rate 128000
+no sh
+int g0/0
+ip address 200.60.3.198 255.255.255.248
+no sh
+ip route 200.60.3.192 255.255.255.248 160.20.10.241
