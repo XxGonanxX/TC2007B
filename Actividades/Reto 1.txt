@@ -11,7 +11,7 @@ password cisco
 login
 logging synchronous
 interface vlan 1
-ip address 200.60.3.196 255.255.255.248
+ip address 200.60.3.193 255.255.255.248
 no shutdown
 ip default-gateway 200.60.3.198
 
@@ -33,4 +33,7 @@ no sh
 int g0/0
 ip address 200.60.3.198 255.255.255.248
 no sh
-ip route 200.60.3.192 255.255.255.248 160.20.10.241
+ip route 0.0.0.0 0.0.0.0 s0/0/0
+
+!ISP
+ip route 200.60.3.192 255.255.255.248 S0/0/0

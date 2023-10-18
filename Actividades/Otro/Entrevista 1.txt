@@ -1,0 +1,16 @@
+Desarrollo de escenarios:
+Bueno, Para esta competencia, primero necesito saber el escenario en el que me pondrán los profes para así poder desarrollarlo. Necesito una situación e irla desarrollando como hemos desarrollado el proyecto.
+
+Referente a las evidencias, en mis reflexiones del sprint 1 y 2 son muestra del proceso que seguí para tomar las decisiones que tomé, tanto el diagrama Blue/Green como la matriz de riesgos, además de actualmente estar trabajando en los wireframes para la plataforma iOS.
+
+ Además de todo lo relacionado con el sprint 1 en el cual tenemos el impact mapping, en este diagrama nosotros hicimos el trabajo de saber cómo ir desarrollando lo que nos pide la socioformadora, esto sacando los actores y lo que ellos buscan hacer para finalmente poder pasarlos a user stories.
+
+
+
+
+Diseño de componentes de software:
+El diseño, que consiste en el proceso de crear una configuración para así buscar una solución que resulte útil y atractiva.
+
+El diseño es el proceso de buscar una solución atractiva y útil para un problema, un ejemplo de esto podría ser el servicio de streaming netflix, el problema era que la gente, para poder ver películas y series, tenía que acudir a su Blockbuster más cercano, ¿Cómo se hacía este proceso más fácil? Evitando que salieras de casa mediante un servicio de streaming.
+
+Mis evidencias son los figmas realizados, y el diagrama Blue/green como ejemplos de cómo nosotros realizamos diseños para poder solventar problemas, los figmas, como lo pueden ser el login e interfaces varias para poder dar solución a las user stories. 
