@@ -31,15 +31,16 @@ struct ContentView: View {
     
     func getPokemonList() async {
         let pokemonRepository = PokemonRepository()
-        let result = await pokemonRepository.getPokemonList(limit: 1279)
-        
+        let result = await
+    // Aquí lo limitaré a solo la primera generación (151), si quieres más, reemplaza el valor de limit por 1279 para conseguirlos todos!
+        pokemonRepository.getPokemonList(limit: 151)
         var tempPokemonList = [PokemonBase]()
-        for pokemon in result!.results {
+        for pokemon in result!.results{
             let numberPokemon = Int(pokemon.url.split(separator: "/")[5])!
-            
             let infoPokemon = await pokemonRepository.getPokemonInfo(numberPokemon: Int(String(numberPokemon))!)
             let tempPokemon = PokemonBase(id: Int(String(numberPokemon))!, pokemon: pokemon, perfil: infoPokemon)
             tempPokemonList.append(tempPokemon)
+            print(pokemon, "done")
         }
         pokemonList = tempPokemonList
     }

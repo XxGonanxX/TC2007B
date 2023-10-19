@@ -1,0 +1,70 @@
+!R1
+no ip domain-lookup
+line con 0
+password cisco
+login
+logging sync
+
+line vty 0 4
+password cisco
+login
+logging sync
+
+enable secret class
+banner motd # Prohibido el acceso sin autorizacion #
+
+router eigrp 19
+! Mascara inversa, si es clase C, en lugar de ser 255.255.255.0, es 0.0.0.255
+!network 192.168.1.0 0.0.0.255
+network 192.168.1.0
+network 10.1.1.0 0.0.0.3
+network 10.3.3.0 0.0.0.3
+passive-interface g0/0
+
+
+!R2
+no ip domain-lookup
+line con 0
+password cisco
+login
+logging sync
+
+line vty 0 4
+password cisco
+login
+logging sync
+
+enable secret class
+banner motd # Prohibido el acceso sin autorizacion #
+
+router eigrp 19
+! Mascara inversa, si es clase C, en lugar de ser 255.255.255.0, es 0.0.0.255
+!network 192.168.2.0 0.0.0.255
+network 192.168.2.0
+network 10.1.1.0 0.0.0.3
+network 10.2.2.0 0.0.0.3
+passive-interface g0/0
+
+!R3
+no ip domain-lookup
+line con 0
+password cisco
+login
+logging sync
+
+line vty 0 4
+password cisco
+login
+logging sync
+
+enable secret class
+banner motd # Prohibido el acceso sin autorizacion #
+
+router eigrp 19
+! Mascara inversa, si es clase C, en lugar de ser 255.255.255.0, es 0.0.0.255
+!network 192.168.3.0 0.0.0.255
+network 192.168.3.0
+network 10.3.3.0 0.0.0.3
+network 10.2.2.0 0.0.0.3
+passive-interface g0/0
+

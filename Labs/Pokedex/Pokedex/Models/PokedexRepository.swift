@@ -25,6 +25,7 @@ class PokemonRepository: PokemonAPIProtocol {
     
     func getPokemonList(limit: Int) async -> Pokedex? {
         // Esta es una función asincrónica, nuestra API llama la url, en este caso, la API de pokemon
+
         return await nservice.getPokedex(url: URL(string:"\(API.base)\(API.routes.pokemon)")!, Limit: limit)
    
     }
