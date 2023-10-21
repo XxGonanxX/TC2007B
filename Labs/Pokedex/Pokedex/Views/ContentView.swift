@@ -11,6 +11,7 @@ import SDWebImageSwiftUI
 
 
 struct ContentView: View {
+    @StateObject var contentViewModel = ContentViewModel()
     @State var pokemonList = [PokemonBase]()
     
     var body: some View {
