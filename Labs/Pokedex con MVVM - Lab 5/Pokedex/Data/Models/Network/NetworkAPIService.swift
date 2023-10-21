@@ -43,9 +43,9 @@ class NetworkAPIService {
         case .success(let data):
             do{
                 return try JSONDecoder().decode(Perfil.self, from: data)
+               
             } catch {
-                return nil
-            }
+                return nil            }
         case let .failure(error):
             debugPrint(error.localizedDescription)
             return nil
