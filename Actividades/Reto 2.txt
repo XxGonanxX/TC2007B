@@ -1,0 +1,159 @@
+!Reto 2 Alan Patricio González Bernal - A01067546
+
+!RFrontera
+
+ena
+config t
+hostname RFrontera
+no ip domain-lookup
+enable secret class
+
+line con 0
+password cisco
+logging synchronous
+exit
+
+line vty 0 9
+password class
+logging synchronous
+exit
+
+int s0/0/0
+ip address 193.40.5.242 255.255.255.252
+description Interface s0/0/0
+no shutdown
+
+
+int s0/1/0
+ip address 210.6.3.76 255.255.255.248
+description Interface s0/1/0
+no shutdown
+
+
+int s0/1/1
+ip address 193.40.5.146 255.255.255.252
+description Interface s0/1/1
+no shutdown
+
+ip route 0.0.0.0 0.0.0.0 s0/1/0
+ip route 0.0.0.0 0.0.0.0 s0/0/0
+ip route 0.0.0.0 0.0.0.0 s0/1/1
+
+router rip
+version 2
+network 193.40.5.240
+network 210.6.3.72
+network 193.40.5.144
+exit
+
+do show ip protocols
+
+
+!RSitio1
+
+ena
+config t
+hostname RSitio1
+no ip domain-lookup
+enable secret class
+
+line con 0
+password cisco
+logging synchronous
+exit
+
+line vty 0 9
+password class
+logging synchronous
+exit
+
+int s0/0/0
+ip address 193.40.5.241 255.255.255.252
+description Interface s0/0/0
+no shutdown
+
+int g0/1
+ip address 198.1.2.126 255.255.255.192
+description interface g0/1
+no shutdown
+
+ 0.0.0.0 0.0.0.0 s0/0/0
+
+router rip 
+version 2
+network 193.40.5.240
+exit
+
+do sh ip protocols
+
+!Rsitio2
+
+ena
+config t
+hostname RSitio2
+no ip domain-lookup
+enable secret class
+
+line con 0
+password cisco
+logging synchronous
+exit
+
+line vty 0 9
+password class
+logging synchronous
+exit
+
+int s0/0/0
+ip address 193.40.5.145 255.255.255.252
+description Interface s0/0/0
+no shutdown
+
+int g0/0
+ip address 210.2.3.238 255.255.255.240
+description interface g0/0
+no shutdown
+
+ 0.0.0.0 0.0.0.0 s0/0/0
+
+router rip 
+version 2
+network 193.40.5.144
+exit
+
+do sh ip protocols
+
+
+!Switch 0
+ena
+config t
+hostname S0
+no ip domain-lookup
+enable password class
+line con 0
+password cisco
+line vty 0 9
+password cisco
+login
+logging synchronous
+
+int vlan
+
+
+ip default-gateway 198.1.2.126
+
+!Switch 1
+
+ena
+config t
+hostname S0
+no ip domain-lookup
+enable password class
+line con 0
+password cisco
+line vty 0 9
+password cisco
+login
+logging synchronous
+ip default-gateway 210.2.3.238
+
