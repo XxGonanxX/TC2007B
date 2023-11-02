@@ -1,0 +1,64 @@
+! Ejercicio 1
+! Impedir tráfico de Alumnos a directivos
+
+
+access-list 1 deny 132.254.89.0 0.0.0.127
+access-list 1 permit any
+
+!Router A
+int g0/0
+ip access-group 1 out
+
+! Ejercicio 2
+! Impedir tráfico de Profesores y alumnos a directivos
+
+no ip access-group 1 out 
+
+access-list 2 remark Impedir trafico de Profesores y Alumnos a Directivos
+access-list 2 deny 132.254.89.0 0.0.0.127
+access-list 2 deny 132.254.89.232 0.0.0.7
+access-list 2 permit any
+
+!Router A
+int g0/0
+ip access-group 2 out
+
+! Ejercicio 3
+! Visitante 01 no acceso a servidores
+
+no ip access-group 2 out 
+
+access-list 3 remark Visitante 01 no acceso a servidores
+access-list 3 deny 132.254.89.120 0.0.0.0
+access-list 3 deny host 132.254.89.120
+access-list 3 permit any
+
+
+!Router A
+int g0/1
+ip access-group 3 out
+
+! Ejercicio 4
+! Impedir de Alumnos a Directivos y Profesores
+
+no ip access-group 3 out 
+
+access-list 4 remark Impedir de Alumnos a Directivos y Profesores
+access-list 4 deny 132.254.89.0 0.0.0.127
+access-list 4 permit any
+
+! Router A y B
+int g0/0
+ip access-group 4 out
+
+! Ejercicio 5
+access-list 100 remark Impedir alumnos a directivos y profesores
+access-list 100 deny ip 132.254.89.0 0.0.0.127 132.254.89.232 0.0.0.7
+access-list 100 deny ip 132.254.89.0 0.0.0.127 132.254.89.192 0.0.0.31
+access-list 100 permit ip any any
+
+! Router B
+int g0/1
+ip access-group 100 in
+255.255.255.254
+

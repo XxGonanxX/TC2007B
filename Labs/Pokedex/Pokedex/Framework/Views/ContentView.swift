@@ -14,19 +14,24 @@ struct ContentView: View {
     @StateObject var contentViewModel = ContentViewModel()
     
     var body: some View {
-        List(contentViewModel.pokemonList) { pokemonBase in
-            HStack {
-                WebImage(url: URL(string: pokemonBase.perfil?.sprites.front_default ?? ""))
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 48, height: 48, alignment: .center)
-                Text(pokemonBase.pokemon.name)
-            }
-        }.onAppear {
-            Task {
-                print("Llamamos el ContentViewModel")
-               await contentViewModel.getPokemonList()
-               
+        NavigationView {
+            List(contentViewModel.pokemonList) { pokemonBase in
+                NavigationLink{
+                    PokemonDetailView(pokemonBase: pokemonBase)
+                } label: {
+                    HStack {
+                        WebImage(url: URL(string: pokemonBase.perfil?.sprites.front_default ?? ""))
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 48, height: 48, alignment: .center)
+                        Text(pokemonBase.pokemon.name)
+                    }
+                }
+            }.onAppear {
+                Task {
+                    await contentViewModel.getPokemonList()
+                    
+                }
             }
         }
     }

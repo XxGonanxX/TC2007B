@@ -36,14 +36,13 @@ description Interface s0/1/1
 no shutdown
 
 ip route 0.0.0.0 0.0.0.0 s0/1/0
-ip route 0.0.0.0 0.0.0.0 s0/0/0
-ip route 0.0.0.0 0.0.0.0 s0/1/1
 
 router rip
 version 2
-network 193.40.5.240
-network 210.6.3.72
-network 193.40.5.144
+! Como 
+network 193.40.5.0
+no auto-summary
+default-information originate
 exit
 
 do show ip protocols
@@ -77,11 +76,11 @@ ip address 198.1.2.126 255.255.255.192
 description interface g0/1
 no shutdown
 
- 0.0.0.0 0.0.0.0 s0/0/0
-
 router rip 
 version 2
-network 193.40.5.240
+network 193.40.5.0
+network 198.1.2.0
+no auto-summary
 exit
 
 do sh ip protocols
@@ -114,46 +113,13 @@ ip address 210.2.3.238 255.255.255.240
 description interface g0/0
 no shutdown
 
- 0.0.0.0 0.0.0.0 s0/0/0
-
 router rip 
 version 2
-network 193.40.5.144
+network 193.40.5.0
+network 210.2.3.0
+no auto-summary
 exit
 
 do sh ip protocols
 
-
-!Switch 0
-ena
-config t
-hostname S0
-no ip domain-lookup
-enable password class
-line con 0
-password cisco
-line vty 0 9
-password cisco
-login
-logging synchronous
-
-int vlan
-
-
-ip default-gateway 198.1.2.126
-
-!Switch 1
-
-ena
-config t
-hostname S0
-no ip domain-lookup
-enable password class
-line con 0
-password cisco
-line vty 0 9
-password cisco
-login
-logging synchronous
-ip default-gateway 210.2.3.238
 

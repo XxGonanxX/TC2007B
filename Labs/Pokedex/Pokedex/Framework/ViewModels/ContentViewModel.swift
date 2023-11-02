@@ -29,8 +29,7 @@ class ContentViewModel: ObservableObject {
             
             let infoPokemon = await pokemonInfoRequirement.getPokemonInfo(numberPokemon: Int(String(numberPokemon))!)
             let tempPokemon = PokemonBase(id: Int(String(numberPokemon))!, pokemon: result!.results[i],  perfil: infoPokemon )
-            
-            print(i, "done")
+        
             
             self.pokemonList.append(tempPokemon)
         }
