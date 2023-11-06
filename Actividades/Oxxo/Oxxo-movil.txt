@@ -1,0 +1,616 @@
+! Router Frontera RF-OXXO-Movil
+enable
+config terminal
+hostname RF-OXXO-Movil
+
+banner motd #
+|====== UNAUTHORIZED ACCESS TO THIS DEVICE IS PROHIBITED ======|
+|==============================================================|
+|You must have explicit, authorized permission to access or    |
+|configure this device. Unauthorized attempts and actions to   |
+|access or use this system may result in civil and/or criminal |
+|penalties. All activities performed on this device are logged |
+|and monitored.                                                |
+|                                                              |
+|                                                              |
+|Please contact the system administrator for any concerns:     |
+|                Alan Gonzalez, A01067546@tec.mx               |
+|                                                              |
+|==============================================================|
+#
+
+enable secret oxxo
+
+! Usuarios permitidos
+username CET privilege 15 secret tc2007b
+username CIT privilege 15 secret tc2007b
+username Intern privilege 1 secret tc2007b
+ip domain-name OXXO.org.mx
+crypto key generate rsa
+
+yes
+1024
+
+line console 0
+login local
+logging sync
+
+line vty 0 2
+login local
+transport input ssh
+logging sync
+
+! Interfaces fisicas
+
+interface s0/1/0
+description Interfaz de conexion con un ISP secundario AT&T
+ip address 172.16.255.250 255.255.255.252
+no shutdown
+
+interface g0/0/0
+description Interfaz con el ISP primario Alestra
+ip address 192.168.20.254 255.255.255.252
+no shutdown
+
+
+
+
+
+
+
+
+
+
+
+! Creacion de sub interfaces
+interface g0/0/1.007
+description Sub Interfaz para la VLAN de AICamaras
+encapsulation dot1q 007
+ip address 172.18.4.22 255.255.255.224
+
+
+interface g0/0/1
+no shutdown
+
+
+interface g0/0/1.100
+description Sub Interfaz para la VLAN de Gerencia
+encapsulation dot1q 100
+ip address 172.18.4.190 255.255.255.192
+
+interface g0/0/1.200
+description Sub Interfaz para la VLAN de Cajas
+encapsulation dot1q 200
+ip address 172.18.5.22 255.255.255.248
+
+
+interface g0/0/1.500
+description Sub Interfaz para la VLAN de Servers
+encapsulation dot1q 500
+ip address 172.18.4.126 255.255.255.128
+
+
+interface g0/0/1.555
+description Sub Interfaz para la VLAN de IoT
+encapsulation dot1q 555
+ip address 172.18.3.254 255.255.252.0
+
+interface g0/0/1.777
+description Sub Interfaz para la VLAN de Seguridad
+encapsulation dot1q 777
+ip address 172.18.4.254 255.255.255.224
+
+interface g0/0/1.911
+description Sub Interfaz para la VLAN de Gestión
+encapsulation dot1q 911
+ip address 172.18.5.14 255.255.255.0240
+
+
+interface g0/0/1
+no shutdown
+
+! Declaración del DHCP
+ip dhcp excluded-address 172.18.4.190 
+ip dhcp pool PoolGerencia
+network 172.18.4.128 255.255.255.192
+default-router 172.18.4.190
+dns-server 8.8.8.8
+
+! Declaración del DHCP
+ip dhcp excluded-address 172.18.3.254
+ip dhcp pool PoolIOT
+network 172.18.0.0 255.255.252.0
+default-router 172.18.3.254
+dns-server 8.8.8.8
+
+!Rutas estaticas para conectarse a los ISP
+ip route 0.0.0.0 0.0.0.0 s0/1/0 5
+ip route 0.0.0.0 0.0.0.0 g0/0/0 
+
+
+
+
+!---------------------------------------------------------------
+! Config switch oxxo-movil
+enable
+config terminal
+hostname S-OXXO-Movil
+
+banner motd #
+|====== UNAUTHORIZED ACCESS TO THIS DEVICE IS PROHIBITED ======|
+|==============================================================|
+|You must have explicit, authorized permission to access or    |
+|configure this device. Unauthorized attempts and actions to   |
+|access or use this system may result in civil and/or criminal |
+|penalties. All activities performed on this device are logged |
+|and monitored.                                                |
+|                                                              |
+|                                                              |
+|Please contact the system administrator for any concerns:     |
+|               	A01067546@tec.mx                       |
+|                                                              |
+|==============================================================|
+#
+
+enable secret oxxo
+
+! Usuarios permitidos
+username CET privilege 15 secret tc2007b
+username CIT privilege 15 secret tc2007b
+username Intern privilege 1 secret tc2007b
+ip domain-name OXXO.org.mx
+crypto key generate rsa
+
+yes
+1024
+
+line console 0
+login local
+logging sync
+
+line vty 0 2
+login local
+transport input ssh
+logging sync
+
+!--------- Para trabajar con las VLANs ---------------------
+!1) Crear la base de datos de las vlans
+
+vtp domain OXXO.com
+vtp mode server
+vtp password tc2007b
+
+vlan 007
+name AICamaras
+vlan 100
+name Gerencia
+vlan 200
+name Cajas
+vlan 500
+name Servers
+vlan 555
+name IoT
+vlan 777
+name Seguridad
+vlan 911
+name Gestion
+
+!2) Asignar puertos a cada vlan activa
+!3) Definir TRUNK
+
+interface range F0/1-4, G0/1-2
+switchport mode trunk
+no shutdown
+
+!4) Asignar IP de gestión
+interface vlan 911
+description IP de gestión
+ip address 172.18.5.1 255.255.255.248
+no shutdown
+
+ip default-gateway 172.18.5.14
+
+
+
+
+
+!---------------------------------------------------------------
+! Config switch oxxo-Security
+enable
+config terminal
+hostname S-OXXO-Security
+
+banner motd #
+|====== UNAUTHORIZED ACCESS TO THIS DEVICE IS PROHIBITED ======|
+|==============================================================|
+|You must have explicit, authorized permission to access or    |
+|configure this device. Unauthorized attempts and actions to   |
+|access or use this system may result in civil and/or criminal |
+|penalties. All activities performed on this device are logged |
+|and monitored.                                                |
+|                                                              |
+|                                                              |
+|Please contact the system administrator for any concerns:     |
+|                Alan Gonzalez, A01067546@tec.mx               |
+|                                                              |
+|==============================================================|
+#
+
+enable secret oxxo
+
+! Usuarios permitidos
+username CET privilege 15 secret tc2007b
+username CIT privilege 15 secret tc2007b
+username Intern privilege 1 secret tc2007b
+ip domain-name OXXO.org.mx
+crypto key generate rsa
+
+yes
+1024
+
+line console 0
+login local
+logging sync
+
+line vty 0 2
+login local
+transport input ssh
+logging sync
+
+!--------- Para trabajar con las VLANs ---------------------
+!1) Crear la base de datos de las vlans
+
+vtp domain OXXO.com
+vtp mode client
+vtp password tc2007b
+
+!2) Asignar puertos a cada vlan activa
+
+interface F0/1-24
+switchport mode access
+switchport access vlan 777
+no shutdown
+
+! Done es ready
+
+!3) Definir TRUNK
+
+interface range G0/1-2
+switchport mode trunk
+no shutdown
+
+!4) Asignar IP de gestión
+interface vlan 911
+description IP de gestión
+ip address 172.18.5.2 255.255.255.248
+no shutdown
+
+ip default-gateway 172.18.5.14
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+!---------------------------------------------------------------
+! Config switch oxxo-IoT
+enable
+config terminal
+hostname S-OXXO-IoT
+
+banner motd #
+|====== UNAUTHORIZED ACCESS TO THIS DEVICE IS PROHIBITED ======|
+|==============================================================|
+|You must have explicit, authorized permission to access or    |
+|configure this device. Unauthorized attempts and actions to   |
+|access or use this system may result in civil and/or criminal |
+|penalties. All activities performed on this device are logged |
+|and monitored.                                                |
+|                                                              |
+|                                                              |
+|Please contact the system administrator for any concerns:     |
+|                Alan Gonzalez, A01067546@tec.mx               |
+|                                                              |
+|==============================================================|
+#
+
+enable secret oxxo
+
+! Usuarios permitidos
+username CET privilege 15 secret tc2007b
+username CIT privilege 15 secret tc2007b
+username Intern privilege 1 secret tc2007b
+ip domain-name OXXO.org.mx
+crypto key generate rsa
+
+yes
+1024
+
+line console 0
+login local
+logging sync
+
+line vty 0 2
+login local
+transport input ssh
+logging sync
+
+!--------- Para trabajar con las VLANs ---------------------
+!1) Crear la base de datos de las vlans
+
+vtp domain OXXO.com
+vtp mode client
+vtp password tc2007b
+
+!2) Asignar puertos a cada vlan activa
+
+interface range F0/1-24
+switchport mode access
+switchport access vlan 555
+no shutdown
+
+! Done es ready
+
+!3) Definir TRUNK
+
+interface range G0/1-2
+switchport mode trunk
+no shutdown
+
+!4) Asignar IP de gestión
+interface vlan 911
+description IP de gestión
+ip address 172.18.5.3 255.255.255.248
+no shutdown
+
+ip default-gateway 172.18.5.14
+
+
+
+
+
+
+
+!---------------------------------------------------------------
+! Config switch oxxo-AICamaras
+enable
+config terminal
+hostname S-OXXO-AICamaras
+
+banner motd 
+#
+|====== UNAUTHORIZED ACCESS TO THIS DEVICE IS PROHIBITED ======|
+|==============================================================|
+|You must have explicit, authorized permission to access or    |
+|configure this device. Unauthorized attempts and actions to   |
+|access or use this system may result in civil and/or criminal |
+|penalties. All activities performed on this device are logged |
+|and monitored.                                                |
+|                                                              |
+|                                                              |
+|Please contact the system administrator for any concerns:     |
+|                Alan Gonzalez, A01067546@tec.mx               |
+|                                                              |
+|==============================================================|
+#
+
+enable secret oxxo
+
+! Usuarios permitidos
+username CET privilege 15 secret tc2007b
+username CIT privilege 15 secret tc2007b
+username Intern privilege 1 secret tc2007b
+ip domain-name OXXO.org.mx
+crypto key generate rsa
+
+yes
+1024
+
+line console 0
+login local
+logging sync
+
+line vty 0 2
+login local
+transport input ssh
+logging sync
+
+!--------- Para trabajar con las VLANs ---------------------
+!1) Crear la base de datos de las vlans
+
+vtp domain OXXO.com
+vtp mode client
+vtp password tc2007b
+
+!2) Asignar puertos a cada vlan activa
+
+interface F0/1-24
+switchport mode access
+switchport access vlan 007
+no shutdown
+
+! Done es ready
+
+!3) Definir TRUNK
+
+interface range G0/1-2
+switchport mode trunk
+no shutdown
+
+!4) Asignar IP de gestión
+interface vlan 911
+description IP de gestión
+ip address 172.18.5.4 255.255.255.248
+no shutdown
+
+ip default-gateway 172.18.5.14
+
+
+
+
+
+
+!---------------------------------------------------------------
+! Config switch oxxo-Cajas
+enable
+config terminal
+hostname S-OXXO-Cajas
+
+banner motd 
+#
+|====== UNAUTHORIZED ACCESS TO THIS DEVICE IS PROHIBITED ======|
+|==============================================================|
+|You must have explicit, authorized permission to access or    |
+|configure this device. Unauthorized attempts and actions to   |
+|access or use this system may result in civil and/or criminal |
+|penalties. All activities performed on this device are logged |
+|and monitored.                                                |
+|                                                              |
+|                                                              |
+|Please contact the system administrator for any concerns:     |
+|                Alan Gonzalez, A01067546@tec.mx               |
+|                                                              |
+|==============================================================|
+#
+
+enable secret oxxo
+
+! Usuarios permitidos
+username CET privilege 15 secret tc2007b
+username CIT privilege 15 secret tc2007b
+username Intern privilege 1 secret tc2007b
+ip domain-name OXXO.org.mx
+crypto key generate rsa
+
+yes
+1024
+
+line console 0
+login local
+logging sync
+
+line vty 0 2
+login local
+transport input ssh
+logging sync
+
+!--------- Para trabajar con las VLANs ---------------------
+!1) Crear la base de datos de las vlans
+
+vtp domain OXXO.com
+vtp mode client
+vtp password tc2007b
+
+!2) Asignar puertos a cada vlan activa
+
+interface F0/1-24
+switchport mode access
+switchport access vlan 200
+no shutdown
+
+! Done es ready
+
+!3) Definir TRUNK
+
+interface range G0/1-2
+switchport mode trunk
+no shutdown
+
+!4) Asignar IP de gestión
+interface vlan 911
+description IP de gestión
+ip address 172.18.5.5 255.255.255.248
+no shutdown
+
+ip default-gateway 172.18.5.14
+
+
+
+
+
+!---------------------------------------------------------------
+! Config switch oxxo-movil
+enable
+config terminal
+hostname S-Admin&Cajas
+
+banner motd #
+|====== UNAUTHORIZED ACCESS TO THIS DEVICE IS PROHIBITED ======|
+|==============================================================|
+|You must have explicit, authorized permission to access or    |
+|configure this device. Unauthorized attempts and actions to   |
+|access or use this system may result in civil and/or criminal |
+|penalties. All activities performed on this device are logged |
+|and monitored.                                                |
+|                                                              |
+|                                                              |
+|Please contact the system administrator for any concerns:     |
+|               	A01067546@tec.mx                       |
+|                                                              |
+|==============================================================|
+#
+
+enable secret oxxo
+
+! Usuarios permitidos
+username CET privilege 15 secret tc2007b
+username CIT privilege 15 secret tc2007b
+username Intern privilege 1 secret tc2007b
+ip domain-name OXXO.org.mx
+crypto key generate rsa
+
+yes
+1024
+
+line console 0
+login local
+logging sync
+
+line vty 0 2
+login local
+transport input ssh
+logging sync
+
+!--------- Para trabajar con las VLANs ---------------------
+!1) Crear la base de datos de las vlans
+vtp domain OXXO.com
+vtp mode client
+vtp password tc2007b
+
+!2) Asignar puertos a cada vlan activa
+interface range F0/1-4
+switchport mode access
+switchport access vlan 200
+no shut
+
+interface range F0/5-24
+switchport mode access
+switchport access vlan 100
+no shut
+
+!3) Definir TRUNK
+interface range G0/1-2
+switchport mode trunk
+no shutdown
+
+!4) Asignar IP de gestión
+interface vlan 911
+description IP de gestión
+ip address 172.18.5.5 255.255.255.248
+no shutdown
+
+ip default-gateway 172.18.5.14

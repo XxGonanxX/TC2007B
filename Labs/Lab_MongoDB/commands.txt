@@ -1,0 +1,104 @@
+To start mongodb:
+brew services start mongodb-community@7.0
+
+To stop mongodb:
+brew services stop mongodb-community@7.0
+
+Once mongo is running, execute:
+mongosh
+
+To exit, execute:
+exit
+
+To see DBs:
+show dbs
+
+To see collections:
+show collections
+
+To create DB:
+use <db_name>
+
+To create collection:
+db.createCollection('<collection_name>')
+
+To insert data:
+db.<collection_name>.insertOne({<data>})
+
+To see data:
+db.<collection_name>.find()
+
+To delete data:
+db.<collection_name>.deleteOne({<data>})
+
+To delete collection:
+db.<collection_name>.drop()
+
+To delete DB:
+db.dropDatabase()
+
+To sort in alphabetical order:
+db.<collection_name>.find().sort({<field>: 1})
+
+To sort in reverse alphabetical order:
+db.<collection_name>.find().sort({<field>: -1})
+
+To clear terminal:
+cls
+
+To do an And:
+db.<collection_name>.find({$and: [{<field>: <value>}, {<field>: <value>}]})
+
+To do an Or:
+db.<collection_name>.find({$or: [{<field>: <value>}, {<field>: <value>}]})
+    Note that this is the only way to do an Or in MongoDB
+
+To do a Not:
+db.<collection_name>.find({<field>: {$ne: <value>}})
+
+$expr allows you to use aggregation expressions within the query language
+example:
+db.<collection_name>.find({$expr: {$gt: ['$<field>', '$<field>']}})
+    This is an expression that will return all documents where the first field is greater than the second field
+
+To find an nested element:
+db.<collection_name>.find({'<field>.<field>': <value>})
+    example:
+        db.users.find({"address.street":"Main"})
+
+To update a document:
+db.<collection_name>.updateOne({<field>: <value>}, {$set: {<field>: <value>}})
+    example:
+        db.users.updateOne({name: "John"}, {$set: {age: 40}})
+
+To increment a value:
+db.<collection_name>.updateOne({<field>: <value>}, {$inc: {<field>: <value>}})
+    example:
+        db.users.updateOne({name: "John"}, {$inc: {age: 1}})
+
+To remove a property:
+db.<collection_name>.updateOne({<field>: <value>}, {$unset: {<field>: <value>}})
+    example:
+        db.users.updateOne({name: "John"}, {$unset: {age: 1}})
+
+To add an element to a list:
+db.<collection_name>.updateOne({<field>: <value>}, {$push: {<field>: <value>}})
+    example:
+        db.users.updateOne({name: "John"}, {$push: {hobbies: "Cooking"}})
+    
+To extract an element from a list:
+db.<collection_name>.updateOne({<field>: <value>}, {$pull: {<field>: <value>}})
+    example:
+        db.users.updateOne({name: "John"}, {$pull: {hobbies: "Cooking"}})
+
+To update multiple documents:
+db.<collection_name>.updateMany({<field>: <value>}, {$set: {<field>: <value>}})
+    example:
+        db.users.updateMany({address:{$exists:true}},{$unset:{address:""}})
+
+
+db.users.updateOne({_id:ObjectId("654732bbdef6221db528084c")},{$set:{name:"New Name"}})
+
+
+por default MongoDB no viene protegido y corre desde el puerto 27017
+
