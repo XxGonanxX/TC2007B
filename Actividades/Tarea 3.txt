@@ -1,0 +1,28 @@
+! --- 1
+access-list 10 deny 132.254.89.0 0.0.0.127
+access-list 10 permit any
+
+int g0/0
+ip access-group 10 out
+
+
+
+no ip access-group 10 out
+
+access-list 100 deny tcp 132.254.89.192 0.0.0.31 host 65.0.1.10 eq 80
+access-list 100 deny tcp 132.254.89.128 0.0.0.63 host 65.0.1.10 eq 80
+
+access-list 100 permit any
+
+int g0/1
+ip access-group 100 out
+
+
+
+
+access-list 120 permit tcp 132.254.89.192 0.0.0.31 host 132.254.89.129 eq ftp
+access-list 120 deny tcp any host 132.254.89.129 eq ftp
+access-list 120 permit ip any any
+
+interface g0/1
+ip access-group 120 out

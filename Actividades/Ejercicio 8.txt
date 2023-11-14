@@ -62,3 +62,48 @@ int g0/1
 ip access-group 100 in
 255.255.255.254
 
+! Ejercicio 2 Lista de acceso extendida
+! ---------------------------------------
+! Impedir de Profesores al servidor de Directivos
+
+no ip access-group 100 in
+
+access-list 120 remark Impedir de Profesores a servidor directivos
+! access-list 120 deny ip 132.254.89.232 0.0.0.7 132.254.89.221 0.0.0.0 NO CISCO
+access-list 120 deny ip 132.254.89.232 0.0.0.7 host 132.254.89.221 
+access-list 120 permit ip any any
+
+int g0/0
+ip access-group 120 in
+
+! Ejercicio 3 Lista de acceso extendida
+! ---------------------------------------
+! Impedir de alumnos acceda al servidor de profesores ni por web ni ftp
+access-list 130 remark Impedir Alumnos al servidor profesores
+access-list 130 deny tcp 132.254.89.0 0.0.0.127 host 132.254.89.238 eq 80
+access-list 130 deny tcp 132.254.89.0 0.0.0.127 host 132.254.89.238 eq 443
+
+
+access-list 130 deny tcp 132.254.89.0 0.0.0.127 host 132.254.89.238 eq 20
+access-list 130 deny tcp 132.254.89.0 0.0.0.127 host 132.254.89.238 eq 21
+access-list 130 permit ip any any
+
+int g0/1
+ip access-group 130 in
+
+
+! Ejercicio 4 Lista de acceso extendida
+! ---------------------------------------
+! Ninguna IP puede acceder a esta red
+
+int g0/1
+no ip access-group 130 in
+
+
+access-list 140 remark Impedir todo el trafico al servidor de LOL via WEB
+access-list 140 deny tcp any host 111.65.32.1 eq 80 
+access-list 140 deny tcp any host 111.65.32.1 eq 443
+access-list 140 permit ip any any 
+
+int s0/0/0 
+ip access-group 140 out
