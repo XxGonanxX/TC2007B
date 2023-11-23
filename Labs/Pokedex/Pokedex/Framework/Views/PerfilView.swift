@@ -17,6 +17,7 @@ struct PerfilView: View {
     var body: some View {
         VStack(alignment: .center, spacing: 24) {
             Text(perfilViewModel.email)
+            Text("Este es el correo tuyo de ti")
             
             Button {
                 perfilViewModel.logOut()
@@ -35,8 +36,10 @@ struct PerfilView: View {
 }
 
 
+
+
 struct PerfilView_Previews: PreviewProvider {
     static var previews: some View {
-        PerfilView {()}
+        PerfilView (goRoot: {})
     }
 }

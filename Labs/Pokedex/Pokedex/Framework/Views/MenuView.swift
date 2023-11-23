@@ -16,7 +16,7 @@ struct MenuView: View {
         ContentView().tabItem {
             Image(systemName: "cricket.ball"); Text("Pokedex")
         }
-        Text("Perfil").tabItem{
+        PerfilView(goRoot: goRoot).tabItem{
             Image(systemName: "person"); Text("Perfil")
             }
         }
@@ -25,9 +25,7 @@ struct MenuView: View {
     
     struct MenuView_Previews: PreviewProvider {
         static var previews: some View {
-            MenuView {
-                ()
-            }
+            MenuView(goRoot: {})
         }
     }
 }

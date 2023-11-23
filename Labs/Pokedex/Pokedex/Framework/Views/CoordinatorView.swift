@@ -12,8 +12,7 @@ import FlowStacks
 struct CoordinatorView: View {
     /// Use this variable to set the main screen the app should start
     @State var routes: Routes<Screen> = [.root(.login)]
-    
-    /// It's not necessary to add all screens. Check up the side menu to understand whole navigation
+
     enum Screen {
         case login
         case menu
@@ -35,6 +34,11 @@ struct CoordinatorView: View {
             case .menu:
                 MenuView(
                     goRoot: { routes.presentCover(.login) }
+                )
+           
+            case .profile:
+                PerfilView(goRoot: { routes.presentCover(.login) }
+                           
                 )
             }
         }

@@ -21,6 +21,7 @@ class PerfilViewModel: ObservableObject {
     @MainActor
     func getCurrentUser() {
         self.email = self.userRequirement.getCurrentUser() ?? ""
+        print(self.email)
     }
     
     @MainActor
