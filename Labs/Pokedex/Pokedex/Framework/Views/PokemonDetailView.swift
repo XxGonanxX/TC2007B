@@ -13,7 +13,7 @@ struct PokemonDetailView: View {
     var pokemonBase: PokemonBase
     
     var body: some View {
-        WebImage(url: URL(string: pokemonBase.perfil?.sprites.front_default ?? ""))
+        WebImage(url: URL(string: pokemonBase.perfil.sprites.front_default))
         Text("ID: ")
         Text(pokemonBase.id.description)
         Text(pokemonBase.pokemon.name).font(.largeTitle)

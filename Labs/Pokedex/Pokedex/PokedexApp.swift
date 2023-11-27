@@ -20,7 +20,7 @@ struct PokedexApp: App {
                 print("App State: Background")
             case .inactive:
                 print("App State: Inactive")
-            case . active: //Foreground
+            case .active: //Foreground
                 print("App State: Active")
             @unknown default:
                 print("App State: Unknown")

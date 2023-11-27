@@ -1,0 +1,21 @@
+!----- Router B -------------
+ip nat pool MyPool 65.10.8.68 65.10.8.95 netmask 255.255.255.224
+access-list 10 permit 10.0.0.0 0.0.0.255
+access-list 10 permit any
+ip nat inside source list 10 pool MyPool overload
+
+int s0/1/0
+ip nat outside
+
+int g0/1
+ip nat inside
+
+int s0/1/1
+ip nat inside
+
+!----- Router A ------------
+int g0/1
+ip nat inside
+
+int s0/1/0
+ip nat inside

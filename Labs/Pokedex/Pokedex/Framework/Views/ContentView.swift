@@ -20,7 +20,7 @@ struct ContentView: View {
                     PokemonDetailView(pokemonBase: pokemonBase)
                 } label: {
                     HStack {
-                        WebImage(url: URL(string: pokemonBase.perfil?.sprites.front_default ?? ""))
+                        WebImage(url: URL(string: pokemonBase.perfil.sprites.front_default))
                             .resizable()
                             .scaledToFit()
                             .frame(width: 48, height: 48, alignment: .center)

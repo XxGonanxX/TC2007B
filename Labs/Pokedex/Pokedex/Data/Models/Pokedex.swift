@@ -31,5 +31,5 @@ struct PokemonBase: Identifiable {
     var id: Int
     var pokemon: Pokemon
     // El signo de interrogación hace que el valor de perfil sea opcional
-    var perfil: Perfil?
+    var perfil: Perfil
 }
